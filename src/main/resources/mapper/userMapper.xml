@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrover.homepage.mapper.UserMapper">
+    <resultMap id="User" type="cn.itrover.homepage.bean.User">
+        <id property="unam" column="unam"></id>
+        <result property="name" column="realname"></result>
+        <result property="platform" column="platform"></result>
+        <result property="email" column="mail"></result>
+        <result property="telephone" column="phone"></result>
+        <result property="upath" column="upath"></result>
+        <result property="duty" column="duty"></result>
+        <result property="skill" column="skills"></result>
+        <result property="prjExperience" column="prj_history"></result>
+    </resultMap>
+
+    <sql id="base_list">unam,realname,platform,mail,phone,upath,duty,skills,prj_history</sql>
+
+    <select id="getUserByPlatform" resultType="cn.itrover.homepage.bean.vo.UserVo">
+        select realname as name ,upath from userinfo
+        <if test="platform != null">
+            where platform = #{platform};
+        </if>
+    </select>
+
+    <select id="login" resultMap="User" parameterType="cn.itrover.homepage.bean.query.LoginUser">
+        select
+        <include refid="base_list"></include>
+        from userinfo
+        where unam = #{unam} and password = #{password};
+    </select>
+
+    <insert id="save" parameterType="cn.itrover.homepage.bean.User">
+        insert into userinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="unam != null">
+                unam,
+            </if>
+            <if test="name != null">
+                realname,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="email != null">
+                mail,
+            </if>
+            <if test="telephone != null">
+                phone,
+            </if>
+            <if test="upath != null">
+                upath,
+            </if>
+            <if test="duty != null">
+                duty,
+            </if>
+            <if test="skill != null">
+                `skills`,
+            </if>
+            <if test="prjExperience != null">
+                `prj_history`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="unam != null">
+                #{unam},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="platform != null">
+                #{platform},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="telephone != null">
+                #{telephone},
+            </if>
+            <if test="upath != null">
+                #{upath},
+            </if>
+
+            <if test="duty != null">
+                #{duty},
+            </if>
+            <if test="skill != null">
+                #{skill},
+            </if>
+            <if test="prjExperience != null">
+                #{prjExperience},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="cn.itrover.homepage.bean.User">
+        update userinfo
+        <set>
+            <if test="name != null">
+                realname = #{name},
+            </if>
+            <if test="platform != null">
+                platform = #{platform},
+            </if>
+            <if test="email != null">
+                mail = #{email},
+            </if>
+            <if test="telephone != null">
+                phone = #{telephone},
+            </if>
+            <if test="upath != null">
+                upath = #{upath},
+            </if>
+            <if test="duty != null">
+                duty = #{duty},
+            </if>
+            <if test="skill != null">
+                skill = #{skill},
+            </if>
+            <if test="prjExperience">
+                prj_history = #{prjExperience},
+            </if>
+        </set>
+        where unam = #{unam};
+    </update>
+
+    <select id="getUserDetail" resultMap="User">
+        select
+        <include refid="base_list"></include>
+        from userinfo
+        where unam = #{unam};
+    </select>
+
+    <select id="getPlatforms" resultType="cn.itrover.homepage.bean.vo.PlatformVo">
+        select pfid as id ,pfname as name,logo_url as logoURL,intro from platform;
+    </select>
+
+    <resultMap id="project" type="cn.itrover.homepage.bean.Project">
+        <id column="pid" property="pid"></id>
+        <result column="pname" property="pname"></result>
+        <result column="p_realname" property="pRealname"></result>
+        <result column="begin_time" property="beginTime"></result>
+        <result column="close_time" property="closeTime"></result>
+        <result column="introduction" property="introduction"></result>
+        <result column="image" property="image"></result>
+        <collection property="members" column="pid" javaType="java.util.ArrayList" select="getProjectMember" ofType="java.lang.String">
+            <result column="member" property="members"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getProjectList" resultType="cn.itrover.homepage.bean.vo.PlatformVo">
+        select pid as id,pname as name ,image from project limit #{start},#{end};
+    </select>
+
+    <select id="getProjectMember" resultType="java.lang.String">
+        select member from project_member where pid = #{pid};
+    </select>
+
+    <select id="getProjectDetail" resultMap="project">
+        select pid,pname,p_realname,begin_time,close_time,introduction,image
+        from project where pid = #{pid};
+    </select>
+
+</mapper>

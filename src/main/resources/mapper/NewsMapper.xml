@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrover.homepage.mapper.NewsMapper">
+    <resultMap id="newsMap" type="cn.itrover.homepage.bean.News">
+        <id column="nid" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="publishTime" property="publishTime"></result>
+        <result column="content" property="content"></result>
+        <result column="url" property="url"></result>
+        <result column="nRealname" property="nRealname"></result>
+    </resultMap>
+
+    <insert id="saveNews" parameterType="cn.itrover.homepage.bean.News" useGeneratedKeys="true" keyColumn="nid"
+            keyProperty="id">
+        insert into news (title,publishTime,content,url,nRealname)
+        values (#{title},#{publishTime},#{content},#{url},#{nRealname});
+    </insert>
+
+    <update id="updateNews" parameterType="cn.itrover.homepage.bean.News">
+        update news set
+        title = #{title},
+        publishTime = #{publishTime},
+        content = #{content},
+        url = #{url},
+        nRealname = #{nRealname}
+        where nid = #{id};
+    </update>
+    <delete id="deleteNewsById" >
+        delete from news where nid = #{id};
+    </delete>
+
+    <select id="getNewsById" resultMap="newsMap">
+        select * from news where nid = #{id};
+    </select>
+    <select id="listNews" resultType="cn.itrover.homepage.bean.vo.NewsVo">
+        select nid as id,publishTime,title,url from news order by publishTime desc limit #{start},#{end};
+    </select>
+
+</mapper>

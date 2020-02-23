@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrover.homepage.mapper.AppointmentMapper">
+    <resultMap id="appointment" type="cn.itrover.homepage.bean.Appointment">
+        <id property="aid" column="aid"></id>
+        <result property="name" column="name"></result>
+        <result property="unit" column="unit"></result>
+        <result property="num" column="num"></result>
+        <result property="telephone" column="telephone"></result>
+        <result property="note" column="note"></result>
+        <result property="date" column="date"></result>
+    </resultMap>
+
+    <sql id="base_list">aid,name,unit,num,telephone,note,`date`</sql>
+
+    <insert id="create" parameterType="cn.itrover.homepage.bean.Appointment" useGeneratedKeys="true" keyProperty="aid" keyColumn="aid" >
+        insert into appointment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+            <if test="date != null">
+                `date`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="unit != null">
+                #{unit},
+            </if>
+            <if test="num != null">
+                #{num},
+            </if>
+            <if test="telephone != null">
+                #{telephone},
+            </if>
+            <if test="note != null">
+                #{note},
+            </if>
+            <if test="date != null">
+                #{date},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getAppointmentById" resultMap="appointment">
+        select
+        <include refid="base_list"></include>
+        from appointment
+        where aid = #{aid};
+    </select>
+
+    <delete id="delete">
+        delete from appointment where aid = #{id}
+    </delete>
+
+    <select id="get" resultType="cn.itrover.homepage.bean.vo.AppointmentVo">
+        select aid ,`date`,name,num from appointment order by `date` asc limit #{start},#{end}
+    </select>
+</mapper>
