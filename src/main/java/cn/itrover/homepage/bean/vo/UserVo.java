@@ -1,7 +1,9 @@
 package cn.itrover.homepage.bean.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author MaYunHao
@@ -12,7 +14,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ToString
 public class UserVo {
+
+    @ApiModelProperty(value = "用户名")
+    private String unam;
 
     private String name;
 

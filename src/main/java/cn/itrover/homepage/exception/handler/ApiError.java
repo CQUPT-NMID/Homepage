@@ -33,6 +33,15 @@ class ApiError {
         apiError.setMessage(message);
         return apiError;
     }
+
+    @Override
+    public String toString() {
+        return "ApiError{" +
+                "status=" + status +
+                ", timestamp=" + timestamp +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
 
 

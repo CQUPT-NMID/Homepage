@@ -2,6 +2,7 @@ package cn.itrover.homepage.service.impl;
 
 import cn.itrover.homepage.bean.JoinUser;
 import cn.itrover.homepage.bean.vo.JoinUserVo;
+import cn.itrover.homepage.enums.OrderBy;
 import cn.itrover.homepage.mapper.JoinUserMapper;
 import cn.itrover.homepage.service.IJoinUserService;
 import cn.itrover.homepage.utils.Page;
@@ -43,8 +44,13 @@ public class JoinUserService implements IJoinUserService {
     }
 
     @Override
-    public List<JoinUserVo> list(Page page) {
+    public int getTotal(String platfrom) {
+        return joinUserMapper.getTotal(platfrom);
+    }
+
+    @Override
+    public List<JoinUserVo> list(Page page, String platform, OrderBy orderBy) {
         PageDto pageDto = new PageDto(page);
-        return joinUserMapper.list(pageDto);
+        return joinUserMapper.list(pageDto,platform,orderBy);
     }
 }

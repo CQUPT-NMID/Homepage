@@ -27,4 +27,6 @@ public interface NewsMapper {
     News getNewsById(Long id);
 
     List<NewsVo> listNews(PageDto dto);
+
+    Integer getTotalNum();
 }

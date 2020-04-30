@@ -2,6 +2,9 @@ package cn.itrover.homepage.bean.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.Date;
 
 /**
  * @author MaYunHao
@@ -12,10 +15,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ToString
 public class ProjectVo {
+
     private Long id;
 
     private String name;
 
     private String image;
+
+    private Date beginTime;
+
 }

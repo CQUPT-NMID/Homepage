@@ -41,4 +41,10 @@ public interface INewsService {
      * @return
      */
     List<NewsVo> listNews(Page page);
+
+    /**
+     * 获取新闻条数
+     * @return
+     */
+    Integer getNewsTotalNum();
 }

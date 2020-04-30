@@ -7,14 +7,13 @@ import cn.itrover.homepage.bean.vo.PlatformVo;
 import cn.itrover.homepage.bean.vo.ProjectVo;
 import cn.itrover.homepage.bean.vo.UserVo;
 import cn.itrover.homepage.utils.Page;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
 /**
  * @author MaYunHao
  * @version 1.0
- * @description
+ * @description  用户相关业务
  * @date 2020/2/20 22:06
  */
 public interface IUserService {
@@ -71,4 +70,20 @@ public interface IUserService {
      * @return
      */
     Project getProjectDetail(Long id);
+
+    /**
+     * 后台管理，添加或更新项目
+     * @param project
+     * @return
+     */
+    Long updateProject(Project project);
+
+
+    /**
+     * 通过用户名查询 用户的项目
+     * @param username 用户姓名
+     * @param judge 判断是否是自己发布的
+     * @return  项目列表
+     */
+    List<ProjectVo> getUserProjects(String username, boolean judge);
 }

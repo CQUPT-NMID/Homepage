@@ -1,6 +1,7 @@
 package cn.itrover.homepage.service.impl;
 
 import cn.itrover.homepage.bean.Appointment;
+import cn.itrover.homepage.bean.dto.PageDto;
 import cn.itrover.homepage.bean.vo.AppointmentVo;
 import cn.itrover.homepage.mapper.AppointmentMapper;
 import cn.itrover.homepage.service.IAppointmentService;
@@ -26,7 +27,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public Long create(Appointment appointment) {
-        appointment.setDate(new Date());
+        appointment.setPublishTime(new Date());
         appointmentMapper.create(appointment);
         return appointment.getAid();
     }
@@ -43,16 +44,17 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<AppointmentVo> get(Page page) {
-        System.out.println(page);
-        int start;
-        int end;
-        if (page == null){
-            start = 0;
-            end = 1000;
-        }else{
-            start = (page.getPageNum()-1)*page.getPageSize();
-            end = start+page.getPageSize();
-        }
-        return appointmentMapper.get(start,end);
+        PageDto pageDto = new PageDto(page);
+        return appointmentMapper.get(pageDto);
+    }
+
+    @Override
+    public void updateStatus(Long id,Boolean status) {
+        appointmentMapper.updateStatus(id,status);
+    }
+
+    @Override
+    public Integer getTotalNum() {
+        return appointmentMapper.getTotalNum();
     }
 }

@@ -1,6 +1,7 @@
 package cn.itrover.homepage.mapper;
 
 import cn.itrover.homepage.bean.Appointment;
+import cn.itrover.homepage.bean.dto.PageDto;
 import cn.itrover.homepage.bean.vo.AppointmentVo;
 import cn.itrover.homepage.utils.Page;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,5 +27,9 @@ public interface AppointmentMapper {
 
     void delete(Long id);
 
-    List<AppointmentVo> get(@Param("start") Integer start,@Param("end") Integer end);
+    List<AppointmentVo> get(PageDto pageDto);
+
+    void updateStatus(Long id,Boolean status);
+
+    Integer getTotalNum();
 }

@@ -2,6 +2,7 @@ package cn.itrover.homepage.service;
 
 import cn.itrover.homepage.bean.JoinUser;
 import cn.itrover.homepage.bean.vo.JoinUserVo;
+import cn.itrover.homepage.enums.OrderBy;
 import cn.itrover.homepage.utils.Page;
 
 import java.util.List;
@@ -23,10 +24,12 @@ public interface IJoinUserService {
 
     /**
      * 获取 加入信息列表
-     * @param page
+     * @param page 分页请求
+     * @param platform 平台
+     * @param orderBy 时间顺序
      * @return
      */
-    List<JoinUserVo> list(Page page);
+    List<JoinUserVo> list(Page page, String platform, OrderBy orderBy);
 
     /**
      * 通过id 获取详细信息
@@ -40,4 +43,11 @@ public interface IJoinUserService {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 查询 加入待处理总数
+     * @param platfrom
+     * @return
+     */
+    int getTotal(String platfrom);
 }

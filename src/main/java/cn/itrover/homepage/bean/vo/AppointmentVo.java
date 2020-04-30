@@ -1,5 +1,7 @@
 package cn.itrover.homepage.bean.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+import javafx.scene.chart.ValueAxis;
 import lombok.Data;
 
 import java.util.Date;
@@ -27,8 +29,20 @@ public class AppointmentVo {
     private Integer num;
 
 
+    private String telephone;
+
+    private String unit;
+
+    @ApiModelProperty(value = "填写时间")
+    private Date publishTime;
+
     /**
      * 时间
      */
+    @ApiModelProperty(value = "参观时间")
     private Date date;
+
+
+    @ApiModelProperty(value = "是否接待")
+    private boolean status;
 }

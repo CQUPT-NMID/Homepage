@@ -21,7 +21,6 @@
     <update id="updateNews" parameterType="cn.itrover.homepage.bean.News">
         update news set
         title = #{title},
-        publishTime = #{publishTime},
         content = #{content},
         url = #{url},
         nRealname = #{nRealname}
@@ -36,6 +35,10 @@
     </select>
     <select id="listNews" resultType="cn.itrover.homepage.bean.vo.NewsVo">
         select nid as id,publishTime,title,url from news order by publishTime desc limit #{start},#{end};
+    </select>
+
+    <select id="getTotalNum" resultType="java.lang.Integer">
+        select count(*) from news;
     </select>
 
 </mapper>

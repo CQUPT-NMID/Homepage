@@ -65,6 +65,33 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Long updateProject(Project project) {
+        if (project.getPid() != null){
+            //更新
+             userMapper.updateProject(project);
+        }else{
+            //插入
+            userMapper.saveProject(project);
+        }
+        //项目成员更新
+        if (project.getMembers() != null && !project.getMembers().isEmpty()){
+            //先删除全部，在更新全部。
+            userMapper.deleteprojectMembers(project.getPid());
+            userMapper.saveProjectMembers(project.getPid(),project.getMembers());
+        }
+        return project.getPid();
+    }
+
+    @Override
+    public List<ProjectVo> getUserProjects(String username, boolean judge) {
+        if (judge){
+            return userMapper.getMyProject(username);
+        }else{
+            return userMapper.getParticpteProject(username);
+        }
+    }
+
+    @Override
     public List<PlatformVo> getPlatforms() {
         return userMapper.getPlatforms();
     }

@@ -78,6 +78,29 @@
     </delete>
 
     <select id="list" resultType="cn.itrover.homepage.bean.vo.JoinUserVo">
-        select juid ,`date`,platform from userjoin order by `date` asc limit #{start},#{end}
+        select juid ,`date`,name,platform from userjoin
+        <if test="platform != null">
+           where platform = #{platform}
+        </if>
+        <if test="orderBy != null">
+            <if test="orderBy.value == 'asc'">
+                order by `date`  asc
+            </if>
+            <if test="orderBy.value == 'desc'">
+                order by `date`  desc
+            </if>
+        </if>
+         <if test="orderBy == null">
+             order by `date`  desc
+         </if>
+        limit #{pageDto.start},#{pageDto.end}
     </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select COUNT(*) FROM userjoin
+        <if test="platform != null">
+           where platform = #{platform}
+        </if>
+    </select>
+
 </mapper>

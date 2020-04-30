@@ -3,6 +3,7 @@ package cn.itrover.homepage.mapper;
 import cn.itrover.homepage.bean.JoinUser;
 import cn.itrover.homepage.bean.vo.JoinUserVo;
 import cn.itrover.homepage.bean.dto.PageDto;
+import cn.itrover.homepage.enums.OrderBy;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +22,11 @@ public interface JoinUserMapper {
 
     public void save(JoinUser joinUser);
 
-    List<JoinUserVo> list(PageDto pageDto);
+    List<JoinUserVo> list(PageDto pageDto, String platform, OrderBy orderBy);
 
     JoinUser getJoinUserById(Long id);
 
     void delete(Long id);
+
+    int getTotal(String platfrom);
 }

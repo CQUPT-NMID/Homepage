@@ -40,4 +40,17 @@ public interface UserMapper {
     Project getProjectDetail(Long id);
 
     List<String> getProjectMember(Long pid);
+
+    List<ProjectVo> getMyProject(String username);
+
+    List<ProjectVo> getParticpteProject(String username);
+
+    void updateProject(Project project);
+
+    void saveProject(Project project);
+
+    void saveProjectMembers(Long pid, List<String> members);
+
+    void deleteprojectMembers(Long pid);
+
 }

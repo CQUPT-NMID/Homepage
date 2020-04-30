@@ -11,9 +11,10 @@
         <result property="telephone" column="telephone"></result>
         <result property="note" column="note"></result>
         <result property="date" column="date"></result>
+        <result property="publishTime" column="publish_time"></result>
     </resultMap>
 
-    <sql id="base_list">aid,name,unit,num,telephone,note,`date`</sql>
+    <sql id="base_list">aid,name,unit,num,telephone,note,`date`,publish_time</sql>
 
     <insert id="create" parameterType="cn.itrover.homepage.bean.Appointment" useGeneratedKeys="true" keyProperty="aid" keyColumn="aid" >
         insert into appointment
@@ -36,6 +37,9 @@
             <if test="date != null">
                 `date`,
             </if>
+            <if test="publishTime != null">
+                publish_time
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -56,6 +60,9 @@
             <if test="date != null">
                 #{date},
             </if>
+            <if test="publishTime != null">
+                #{publishTime}
+            </if>
         </trim>
     </insert>
 
@@ -71,6 +78,17 @@
     </delete>
 
     <select id="get" resultType="cn.itrover.homepage.bean.vo.AppointmentVo">
-        select aid ,`date`,name,num from appointment order by `date` asc limit #{start},#{end}
+        select aid ,`date`,name,num,telephone,publish_time as publisTime,unit,status
+        from appointment order by `publish_time` desc limit #{start},#{end}
     </select>
+
+    <update id="updateStatus">
+        update appointment set status = #{status}
+        where aid = #{id};
+    </update>
+    <select id="getTotalNum" resultType="java.lang.Integer">
+        select count(*)
+        from appointment;
+    </select>
+
 </mapper>

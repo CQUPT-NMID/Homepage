@@ -20,12 +20,12 @@ public class PageDto {
     private int end;
 
     public PageDto(Page page){
-        if(page == null){
+        if(page == null || page.getPageSize() <= 0){
             this.start = 0;
             end = 1000;
         }else{
             this.start = (page.getPageNum()-1)*page.getPageSize();
-            this.end = this.start + page.getPageSize();
+            this.end = page.getPageSize();
         }
     }
 }

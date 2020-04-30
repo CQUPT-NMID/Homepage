@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://120.24.93.68:3306/daliymanagement?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   http:
     encoding:
       charset: utf-8
@@ -12,7 +12,6 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: classpath:cn.itrover.homepage.bean
   config-location: classpath:mybatis-config.xml
-
 
 config:
   jwt:
@@ -25,5 +24,14 @@ config:
     regin: ap-chengdu
     url: https://daliymanager-1300698904.cos.ap-chengdu.myqcloud.com/
     bucketName: daliymanager-1300698904
+
+logging:
+  level:
+    root: error
+    cn.itrover.homepage: info
+  file:
+    name: log/homepage.log
+
 server:
   port: 8082
+debug: true

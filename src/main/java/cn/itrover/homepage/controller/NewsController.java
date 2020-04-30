@@ -6,6 +6,7 @@ import cn.itrover.homepage.bean.User;
 import cn.itrover.homepage.bean.vo.NewsVo;
 import cn.itrover.homepage.service.INewsService;
 import cn.itrover.homepage.utils.Page;
+import cn.itrover.homepage.utils.PageResult;
 import cn.itrover.homepage.utils.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,10 +61,11 @@ public class NewsController {
     @ApiOperation("获取新闻列表")
     @GetMapping("/news")
     @ResponseResult
-    public List<NewsVo> getNewsList(@RequestParam(required = false)Page page){
+    public PageResult getNewsList(Page page){
         List<NewsVo> list = newsService.listNews(page);
-        return list;
+        Integer total = newsService.getNewsTotalNum();
+        PageResult result = new PageResult(list,total,page);
+        return result;
     }
-
 
 }

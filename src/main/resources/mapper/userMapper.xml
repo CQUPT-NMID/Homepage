@@ -15,10 +15,10 @@
         <result property="prjExperience" column="prj_history"></result>
     </resultMap>
 
-    <sql id="base_list">unam,realname,platform,mail,phone,upath,duty,skills,prj_history</sql>
+    <sql id="base_list"> unam,realname,platform,mail,phone,upath,duty,skills,prj_history</sql>
 
     <select id="getUserByPlatform" resultType="cn.itrover.homepage.bean.vo.UserVo">
-        select realname as name ,upath from userinfo
+        select unam,realname as name ,upath from userinfo
         <if test="platform != null">
             where platform = #{platform};
         </if>
@@ -116,7 +116,7 @@
                 duty = #{duty},
             </if>
             <if test="skill != null">
-                skill = #{skill},
+                skills = #{skill},
             </if>
             <if test="prjExperience">
                 prj_history = #{prjExperience},
@@ -144,13 +144,14 @@
         <result column="close_time" property="closeTime"></result>
         <result column="introduction" property="introduction"></result>
         <result column="image" property="image"></result>
+        <result column="progress" property="progress"></result>
         <collection property="members" column="pid" javaType="java.util.ArrayList" select="getProjectMember" ofType="java.lang.String">
             <result column="member" property="members"></result>
         </collection>
     </resultMap>
 
-    <select id="getProjectList" resultType="cn.itrover.homepage.bean.vo.PlatformVo">
-        select pid as id,pname as name ,image from project limit #{start},#{end};
+    <select id="getProjectList" resultType="cn.itrover.homepage.bean.vo.ProjectVo">
+        select pid as id,pname as name ,image,begin_time as beginTime from project limit #{start},#{end};
     </select>
 
     <select id="getProjectMember" resultType="java.lang.String">
@@ -158,8 +159,62 @@
     </select>
 
     <select id="getProjectDetail" resultMap="project">
-        select pid,pname,p_realname,begin_time,close_time,introduction,image
+        select pid,pname,p_realname,begin_time,close_time,introduction,image,progress
         from project where pid = #{pid};
     </select>
 
+    <select id="getMyProject" resultType="cn.itrover.homepage.bean.vo.ProjectVo">
+        select pid as id,pname as name ,image,begin_time as beginTime from project
+        where p_realname = #{username};
+    </select>
+
+    <select id="getParticpteProject" resultType="cn.itrover.homepage.bean.vo.ProjectVo">
+        select pid as id,pname as name ,image,begin_time as beginTime from project
+        where pid in (select pid from project_member where member = #{username});
+    </select>
+
+    <update id="updateProject" parameterType="cn.itrover.homepage.bean.Project" >
+        update project
+            <set>
+                <if test="pname != null">
+                    pname = #{pname},
+                </if>
+                <if test="pRealname != null">
+                    p_realname = #{pRealname},
+                </if>
+                <if test="beginTime != null">
+                    begin_time = #{beginTime},
+                </if>
+                <if test="closeTime != null">
+                    close_time = #{closeTime},
+                </if>
+                <if test="introduction != null">
+                    introduction = #{introduction},
+                </if>
+                <if test="image != null">
+                    image = #{image},
+                </if>
+                <if test="progress != null">
+                    progress = #{progress},
+                </if>
+            </set>
+            where pid = #{pid};
+    </update>
+
+    <insert id="saveProject" parameterType="cn.itrover.homepage.bean.Project" useGeneratedKeys="true" keyColumn="pid" keyProperty="pid">
+        insert into project(pname, p_realname, begin_time, close_time, introduction, image,progress)
+        values (#{pname},#{pRealname},#{beginTime},#{closeTime},#{introduction},#{image},#{progress});
+    </insert>
+
+    <delete id="deleteprojectMembers">
+        delete  from  project_member where  pid = #{pid};
+    </delete>
+
+    <insert id="saveProjectMembers">
+        insert into project_member (pid, member)
+        values
+        <foreach collection="members" item="member" separator=",">
+             (#{pid},#{member})
+        </foreach>
+    </insert>
 </mapper>

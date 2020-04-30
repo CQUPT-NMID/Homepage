@@ -2,6 +2,7 @@ package cn.itrover.homepage.bean.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -14,10 +15,13 @@ import java.util.Date;
 
 @Setter
 @Getter
+@ToString
 public class JoinUserVo {
     private Long juid;
 
     private String platform;
+
+    private String name;
 
     private Date date;
 }

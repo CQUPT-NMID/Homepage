@@ -41,4 +41,16 @@ public interface IAppointmentService {
      * @return
      */
     List<AppointmentVo> get(Page page);
+
+    /**
+     * 更新 预约的接待状态
+     * @param id
+     */
+    void updateStatus(Long id,Boolean status);
+
+    /**
+     * 获取总数
+     * @return
+     */
+    Integer getTotalNum();
 }

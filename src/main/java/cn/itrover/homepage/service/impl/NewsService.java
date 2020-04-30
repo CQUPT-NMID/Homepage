@@ -50,4 +50,9 @@ public class NewsService implements INewsService {
         PageDto dto = new PageDto(page);
         return newsMapper.listNews(dto);
     }
+
+    @Override
+    public Integer getNewsTotalNum() {
+        return newsMapper.getTotalNum();
+    }
 }
